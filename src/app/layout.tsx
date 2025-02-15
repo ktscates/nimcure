@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import NavbarWrapper from "@/components/NavbarWrapper";
+import "../styles/fonts.css"; // Import the custom fonts
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,9 +26,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload custom fonts */}
+        <link
+          rel="preload"
+          href="/fonts/Gilroy-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NavbarWrapper />
         {children}
       </body>
     </html>
