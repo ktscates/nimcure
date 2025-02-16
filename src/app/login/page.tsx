@@ -9,8 +9,8 @@ import Button from "@/components/Button";
 export default function Login() {
   const router = useRouter();
 
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent form submission
+  const handleLogin = () => {
+    console.log("Login button clicked"); // Debugging
     router.push("/patients");
   };
 
@@ -19,17 +19,25 @@ export default function Login() {
       {/* Left Side - Login Form */}
       <div className="w-1/2 flex flex-col justify-between items-center bg-white p-8 relative z-0 shadow-md">
         <div className="mb-6">
-          <Image src="/logo.png" alt="Logo" width={58} height={58} />
+          <Image src="/images/logo.png" alt="Logo" width={58} height={58} />
         </div>
         <form className="w-full max-w-sm">
           <h2 className="text-xl font-semibold mb-8 text-dark">
             Sign in to continue
           </h2>
           <div className="mb-4">
-            <Input type="email" placeholder="Email Address" />
+            <Input
+              customStyle="w-full px-4 py-4"
+              type="email"
+              placeholder="Email Address"
+            />
           </div>
           <div className="mb-4 relative">
-            <Input type="password" placeholder="Password" />
+            <Input
+              customStyle="w-full px-4 py-4"
+              type="password"
+              placeholder="Password"
+            />
           </div>
           <div className="flex justify-between items-center mb-6 mt-6">
             <label className="flex items-center text-dark text-sm">
@@ -39,7 +47,12 @@ export default function Login() {
               Forgot Password?
             </Link>
           </div>
-          <Button onClick={handleLogin} text="Login" className="mt-16" />
+          <Button
+            type="button"
+            onClick={handleLogin}
+            text="Login"
+            className="mt-16 w-full font-semibold text-xl text-white bg-blue hover:bg-blue hover:bg-opacity-80"
+          />
         </form>
         <Image src="/images/footer.png" alt="logo" width={166} height={23} />
       </div>

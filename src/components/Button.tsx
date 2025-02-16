@@ -1,10 +1,12 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   text: string;
-  className?: string; // Accepts custom Tailwind classes
+  className?: string;
   icon?: ReactNode;
+  type?: "button" | "submit";
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,15 +14,20 @@ const Button: React.FC<ButtonProps> = ({
   text,
   className = "",
   icon,
+  type = "button",
+  disabled,
 }) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+  };
   return (
     <button
-      onClick={onClick}
-      className={`w-full bg-blue mt-16 text-white text-xl font-semibold py-4 hover:bg-blue hover:bg-opacity-80 ${className}`} // Default + custom classes
+      type={type}
+      onClick={handleClick}
+      disabled={disabled}
+      className={`py-4 ${className}`}
     >
-      {icon && <span className="mr-2">{icon}</span>}{" "}
-      {/* Render icon if provided */}
-      {text}
+      {icon && <span className="mr-2">{icon}</span>} {text}
     </button>
   );
 };

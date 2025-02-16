@@ -44,9 +44,9 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md font-primary">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+    <nav className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center h-20">
           {/* Logo and Overview Link */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center">
@@ -65,9 +65,9 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-1  hover:text-gray-900 ${
-                  pathname === link.href
-                    ? "font-bold text-light_blue border-b-4 rounded-sm py-5 border-light_blue "
+                className={`flex items-center gap-2 hover:text-gray-900 ${
+                  pathname.startsWith(link.href) // Match base route and subroutes
+                    ? "font-bold text-light_blue border-b-4 rounded-sm py-7 border-light_blue"
                     : ""
                 }`}
               >
@@ -95,7 +95,7 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+              <div className="absolute right-0 mt-3 w-48 border border-gray border-opacity-40 bg-white shadow-lg">
                 <Link
                   href="/logout"
                   className="block px-4 py-2 text-gray-700 hover:bg-gray-100"

@@ -1,11 +1,22 @@
-import React, { JSX, useState } from "react";
+import React, { JSX } from "react";
+import Pagination from "./Pagination";
+
+interface Column<T> {
+  key: keyof T;
+  label: string;
+  hideOnMobile?: boolean; // New property to control column visibility
+}
 
 interface TableProps<T> {
-  columns: { key: keyof T; label: string }[];
+  columns: Column<T>[];
   data: T[];
   onRowClick?: (row: T) => void;
   actions?: (row: T) => JSX.Element; // Optional actions (Edit/Delete)
   customStyle?: string; // Custom styles
+  currentPage: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
 }
 
 const Table = <T,>({
@@ -14,66 +25,90 @@ const Table = <T,>({
   onRowClick,
   actions,
   customStyle,
+  currentPage,
+  totalItems,
+  itemsPerPage,
+  onPageChange,
 }: TableProps<T>) => {
-  const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-  const handleSort = (key: keyof T) => {
-    if (sortColumn === key) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortColumn(key);
-      setSortOrder("asc");
-    }
+  // Status color mapping
+  const statusColors: Record<string, string> = {
+    completed: "bg-completed bg-opacity-20 text-completed px-4 py-2 font-bold",
+    "due & paid": "bg-paid bg-opacity-20 text-paid px-4 py-2 font-bold",
+    "due & unpaid": "bg-unpaid bg-opacity-20 text-unpaid px-4 py-2 font-bold",
+    assigned: "bg-light_blue bg-opacity-20 text-light_blue px-4 py-2 font-bold",
   };
-
-  const sortedData = [...data].sort((a, b) => {
-    if (!sortColumn) return 0;
-    const valA = a[sortColumn];
-    const valB = b[sortColumn];
-    return sortOrder === "asc"
-      ? String(valA).localeCompare(String(valB))
-      : String(valB).localeCompare(String(valA));
-  });
 
   return (
     <div className={`overflow-x-auto shadow-md rounded-lg ${customStyle}`}>
-      <table className="min-w-full bg-white border border-gray-200">
+      <table className="w-full bg-white">
         {/* Table Head */}
         <thead>
-          <tr className="bg-gray-100 border-b border-gray-300">
-            {columns.map(({ key, label }) => (
+          <tr className="bg-gray-100 border-b border-gray border-opacity-35">
+            {columns.map(({ key, label, hideOnMobile }) => (
               <th
                 key={String(key)}
-                onClick={() => handleSort(key)}
-                className="py-3 px-6 text-left text-gray-700 font-semibold cursor-pointer"
+                className={`py-5 px-4 text-left text-dark text-opacity-70 text-sm font-semibold cursor-pointer ${
+                  hideOnMobile ? "hidden md:table-cell" : ""
+                }`}
               >
                 {label}{" "}
-                {sortColumn === key ? (sortOrder === "asc" ? "🔼" : "🔽") : ""}
               </th>
             ))}
-            {actions && <th className="py-3 px-6 text-left">Actions</th>}
+            {actions && (
+              <th className="py-2 px-6 text-left text-dark text-opacity-70 text-sm">
+                Actions
+              </th>
+            )}
           </tr>
         </thead>
 
         {/* Table Body */}
         <tbody>
-          {sortedData.map((row, rowIndex) => (
+          {data.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className="border-b border-gray-200 hover:bg-gray-50 transition"
+              className="border-b border-gray border-opacity-35 hover:bg-gray-50 transition"
               onClick={() => onRowClick && onRowClick(row)}
             >
-              {columns.map(({ key }) => (
-                <td key={String(key)} className="py-3 px-6">
-                  {String(row[key])}
+              {columns.map(({ key, hideOnMobile }) => (
+                <td
+                  key={String(key)}
+                  className={`py-6 px-6 text-dark text-opacity-80 text-sm ${
+                    hideOnMobile ? "hidden md:table-cell" : ""
+                  }`}
+                >
+                  {key === "status" ? (
+                    <span
+                      className={
+                        statusColors[String(row[key])] ||
+                        "bg-gray-500 text-white"
+                      }
+                    >
+                      {String(row[key])}
+                    </span>
+                  ) : (
+                    String(row[key])
+                  )}
                 </td>
               ))}
-              {actions && <td className="py-3 px-6">{actions(row)}</td>}
+              {actions && <td className="py-2 px-4">{actions(row)}</td>}
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Pagination and Footer */}
+      <div className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-6">
+        <span className="text-sm text-dark text-opacity-80 mb-4 md:mb-0">
+          You’re viewing {itemsPerPage} out of {totalItems} deliveries
+        </span>
+        <Pagination
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={onPageChange}
+        />
+      </div>
     </div>
   );
 };
