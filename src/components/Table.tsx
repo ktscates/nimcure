@@ -39,7 +39,7 @@ const Table = <T,>({
   };
 
   return (
-    <div className={`overflow-x-auto shadow-md rounded-lg ${customStyle}`}>
+    <div className={`overflow-x-auto shadow-md ${customStyle}`}>
       <table className="w-full bg-white">
         {/* Table Head */}
         <thead>

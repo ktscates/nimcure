@@ -7,6 +7,7 @@ interface InputProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   customStyle?: string;
+  label?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   customStyle,
+  label,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,6 +45,12 @@ const Input: React.FC<InputProps> = ({
             : "" /* Adds left padding for search icon */
         } ${customStyle}`}
       />
+      {/* Floating Label */}
+      {label && (
+        <label className="absolute left-2 top-1 px-1 text-sm text-gray-600">
+          {label}
+        </label>
+      )}
 
       {/* Show/Hide Password Button */}
       {type === "password" && (

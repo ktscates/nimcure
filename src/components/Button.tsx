@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={handleClick}
       disabled={disabled}
-      className={`py-4 ${className}`}
+      className={`${className}`}
     >
       {icon && <span className="mr-2">{icon}</span>} {text}
     </button>

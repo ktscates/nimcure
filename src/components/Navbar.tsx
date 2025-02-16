@@ -66,7 +66,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className={`flex items-center gap-2 hover:text-gray-900 ${
-                  pathname.startsWith(link.href) // Match base route and subroutes
+                  pathname.startsWith(link.href)
                     ? "font-bold text-light_blue border-b-4 rounded-sm py-7 border-light_blue"
                     : ""
                 }`}

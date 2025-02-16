@@ -89,12 +89,12 @@ export default function Patients() {
   return (
     <div className="bg-background bg-opacity-20 h-screen">
       <div className="px-4 border-b border-background border-opacity-90">
-        <div className="max-w-7xl mx-auto flex justify-between items-center py-9 ">
+        <div className="max-w-7xl mx-auto flex justify-between items-center py-9">
           <h1 className="text-dark font-normal text-2xl">Patients</h1>
           <Button
             type="button"
             text="Add Patient"
-            className="px-8 bg-blue text-xl text-white font-semibold"
+            className="px-8 py-2 bg-blue text-sm text-white font-bold"
           />
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function Patients() {
             <Button
               type="button"
               text="View"
-              className="w-16 h-2 flex justify-center items-center border border-light_blue text-light_blue text-sm font-bold"
+              className="w-16 h-8 flex justify-center items-center border border-light_blue text-light_blue text-sm font-bold"
               onClick={() => handleViewDetails(row.hospital_id)}
             />
           )}

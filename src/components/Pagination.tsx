@@ -40,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
         text="Prev"
         onClick={handlePrevClick}
         disabled={currentPage === 1}
-        className={`w-16 h-3 p-0 flex justify-center items-center rounded-full border border-3 border-page text-page text-sm disabled:opacity-50 ${
+        className={`w-16 h-6 flex justify-center items-center rounded-full border border-3 border-page text-page text-sm disabled:opacity-50 ${
           currentPage === 1 ? "cursor-not-allowed" : ""
         }`}
       />
@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({
           key={page}
           text={page.toString()}
           onClick={() => onPageChange(page)}
-          className={`w-8 h-1 rounded-full flex justify-center items-center text-page text-sm ${
+          className={`w-6 h-6 rounded-full flex justify-center items-center text-page text-sm ${
             page === currentPage
               ? "border border-page rounded-full"
               : "border-none"
@@ -61,7 +61,7 @@ const Pagination: React.FC<PaginationProps> = ({
         text="Next"
         onClick={handleNextClick}
         disabled={currentPage === totalPages}
-        className={`w-16 h-3 p-0 rounded-full flex justify-center items-center border border-page text-page text-sm disabled:opacity-50 ${
+        className={`w-16 h-6 rounded-full flex justify-center items-center border border-page text-page text-sm disabled:opacity-50 ${
           currentPage === totalPages ? "cursor-not-allowed" : ""
         }`}
       />
