@@ -6,14 +6,36 @@ import React, { useState } from "react";
 import PatientSidebar from "@/components/PatientSidebar";
 import PatientInfo from "@/components/PatientInfo";
 import DeliveryInfo from "@/components/DeliveryInfo";
+import { useParams } from "next/navigation";
+import patients from "@/data";
 
 export default function PatientProfile() {
+  const { hospital_id } = useParams(); // Get hospital_id from URL
+  const [activeTab, setActiveTab] = useState("patient-info");
+
+  // Find the patient with the matching hospital_id
+  const patient = patients.find((p) => p.hospital_id === hospital_id);
+
+  if (!patient) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-bold text-red-500">Patient Not Found</h1>
+      </div>
+    );
+  }
   const breadcrumbItems = [
     { label: "Patients", href: "/patients" },
     { label: "View Patient" }, // Current page (no href)
   ];
 
-  const [activeTab, setActiveTab] = useState("patient-info");
+  let statusClass = "bg-light_blue bg-opacity-20 text-light_blue";
+  if (patient.status === "completed") {
+    statusClass = "bg-completed bg-opacity-20 text-completed";
+  } else if (patient.status === "due & paid") {
+    statusClass = "bg-paid bg-opacity-20 text-paid";
+  } else if (patient.status === "due & unpaid") {
+    statusClass = "bg-unpaid bg-opacity-20 text-unpaid";
+  }
 
   return (
     <div className="bg-background bg-opacity-20 h-screen">
@@ -23,18 +45,26 @@ export default function PatientProfile() {
           <Button
             type="button"
             text="Assign Package to Patient"
-            className="px-8 py-2 bg-blue text-sm text-white font-bold"
+            className="px-8 py-3 bg-blue text-sm text-white font-bold"
           />
         </div>
       </div>
 
-      <div className="flex justify-between max-w-7xl mx-auto mt-16">
+      <div className="flex justify-between max-w-7xl mx-auto mt-16 relative">
+        {" "}
+        {/* Added relative positioning */}
         {/* Sidebar Navigation */}
         <PatientSidebar />
-
-        <div className="bg-white w-5/6 p-8">
+        <div className="bg-white w-5/6 px-8 py-20 relative">
+          {" "}
+          {/* Make sure the container is relative */}
           <div className="flex justify-between items-center border-b border-gray border-opacity-35">
-            <h1>Payment status: Paid</h1>
+            <h1>
+              Payment status:{" "}
+              <span className={`px-4 py-2 font-bold ${statusClass}`}>
+                {patient.status}
+              </span>
+            </h1>
             <div>
               <button
                 className={`py-2 px-4 ${
@@ -58,7 +88,6 @@ export default function PatientProfile() {
               </button>
             </div>
           </div>
-
           {activeTab === "patient-info" && (
             <div className="flex justify-between gap-5 mt-6">
               <div>
@@ -72,7 +101,7 @@ export default function PatientProfile() {
                   className="mt-6 border px-4 py-2 text-light_blue border-light_blue font-bold"
                 ></Button>
               </div>
-              <PatientInfo />
+              <PatientInfo patient={patient} />
             </div>
           )}
           {/* Delivery Information Placeholder */}
@@ -89,9 +118,17 @@ export default function PatientProfile() {
                   className="mt-6 border px-4 py-2 text-light_blue border-light_blue font-bold"
                 ></Button>
               </div>
-              <DeliveryInfo />
+              <DeliveryInfo patient={patient} />
             </div>
           )}
+          {/* Floating Button at Bottom Right */}
+          <div className="absolute bottom-4 right-4 px-4">
+            <Button
+              type="button"
+              text="Save changes"
+              className="bg-blue text-white text-sm px-4 py-3 font-extrabold"
+            />
+          </div>
         </div>
       </div>
     </div>

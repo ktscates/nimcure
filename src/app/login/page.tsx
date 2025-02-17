@@ -51,7 +51,7 @@ export default function Login() {
             type="button"
             onClick={handleLogin}
             text="Login"
-            className="mt-16 w-full font-semibold text-xl text-white bg-blue hover:bg-blue hover:bg-opacity-80"
+            className="mt-16 w-full font-semibold text-xl text-white bg-blue py-4 hover:bg-blue hover:bg-opacity-80"
           />
         </form>
         <Image src="/images/footer.png" alt="logo" width={166} height={23} />

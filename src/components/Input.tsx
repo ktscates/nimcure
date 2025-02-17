@@ -25,38 +25,34 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className="relative">
-      {/* Search Icon for Search Input */}
-      {type === "search" && (
-        <FiSearch
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray text-opacity-60"
-          size={12}
-        />
-      )}
-
+    <div className="relative w-full">
       <input
         type={type === "password" && showPassword ? "text" : type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`border text-dark placeholder:text-sm placeholder:text-gray placeholder:opacity-60 border-grey focus:outline-none focus:ring-2 focus:ring-blue ${
-          type === "search"
-            ? "pl-8"
-            : "" /* Adds left padding for search icon */
-        } ${customStyle}`}
+        className={`peer border text-dark placeholder:text-gray placeholder-transparent border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 px-3 py-2 w-full ${customStyle}`}
       />
       {/* Floating Label */}
       {label && (
-        <label className="absolute left-2 top-1 px-1 text-sm text-gray-600">
+        <label className="absolute left-3 -top-2 text-gray-600 text-sm transition-all peer-focus:top-[-10px] peer-focus:text-xs peer-focus:text-blue-500 bg-white px-1">
           {label}
         </label>
+      )}
+
+      {/* Search Icon for Search Input */}
+      {type === "search" && (
+        <FiSearch
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          size={16}
+        />
       )}
 
       {/* Show/Hide Password Button */}
       {type === "password" && (
         <button
           type="button"
-          className="absolute right-3 top-1/2 text-dark transform -translate-y-1/2 text-gray-600"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
           onClick={handleTogglePassword}
         >
           {showPassword ? "HIDE" : "SHOW"}

@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
-import patients from "@/data";
+import patients from "@/data"; // Ensure that the data conforms to the Patient interface
 import Table from "@/components/Table";
 import { useRouter } from "next/navigation"; // Assuming you will use this for navigation
 
@@ -45,8 +45,11 @@ export default function Patients() {
     { key: "location", label: "Location" },
   ];
 
-  // Filtered and sorted data
   const filteredPatients = patients
+    .map((patient) => ({
+      ...patient,
+      patient_name: `${patient.first_name} ${patient.last_name}`, // Combine first & last name
+    }))
     .filter((patient) =>
       patient.patient_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -57,7 +60,6 @@ export default function Patients() {
         ? valA.localeCompare(valB)
         : valB.localeCompare(valA);
     });
-
   // Handle sorting selection
   const handleSortSelection = (key: keyof Patient) => {
     setSortOrder((prev) =>
