@@ -122,9 +122,7 @@ export default function Patients() {
                   onClick={() => handleSortSelection(option.key)}
                   className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
-                  {option.label}{" "}
-                  {sortColumn === option.key &&
-                    (sortOrder === "asc" ? "🔼" : "🔽")}
+                  {option.label}
                 </button>
               ))}
             </div>

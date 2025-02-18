@@ -10,7 +10,6 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log("Login button clicked"); // Debugging
     router.push("/patients");
   };
 

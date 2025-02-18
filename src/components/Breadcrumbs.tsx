@@ -12,11 +12,16 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {item.href ? (
-            <Link href={item.href} className="hover:text-blue-600">
+            <Link
+              href={item.href}
+              className="hover:text-blue-600 text-light_blue"
+            >
               {item.label}
             </Link>
           ) : (
-            <span className="text-gray-800">{item.label}</span>
+            <span className="text-gray-800 text-xl text-light_blue">
+              {item.label}
+            </span>
           )}
           {index < items.length - 1 && (
             <span className="mx-2 text-gray-400">/</span>

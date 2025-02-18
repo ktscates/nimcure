@@ -6,12 +6,13 @@ import React, { useState } from "react";
 import PatientSidebar from "@/components/PatientSidebar";
 import PatientInfo from "@/components/PatientInfo";
 import DeliveryInfo from "@/components/DeliveryInfo";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import patients from "@/data";
 
 export default function PatientProfile() {
-  const { hospital_id } = useParams(); // Get hospital_id from URL
+  const { hospital_id } = useParams();
   const [activeTab, setActiveTab] = useState("patient-info");
+  const router = useRouter();
 
   // Find the patient with the matching hospital_id
   const patient = patients.find((p) => p.hospital_id === hospital_id);
@@ -25,7 +26,7 @@ export default function PatientProfile() {
   }
   const breadcrumbItems = [
     { label: "Patients", href: "/patients" },
-    { label: "View Patient" }, // Current page (no href)
+    { label: "View Patient" },
   ];
 
   let statusClass = "bg-light_blue bg-opacity-20 text-light_blue";
@@ -37,6 +38,10 @@ export default function PatientProfile() {
     statusClass = "bg-unpaid bg-opacity-20 text-unpaid";
   }
 
+  const handleAssign = () => {
+    router.push(`/patients/${patient.hospital_id}/assign`);
+  };
+
   return (
     <div className="bg-background bg-opacity-20 h-screen">
       <div className="px-4 border-b border-background border-opacity-90">
@@ -46,18 +51,14 @@ export default function PatientProfile() {
             type="button"
             text="Assign Package to Patient"
             className="px-8 py-3 bg-blue text-sm text-white font-bold"
+            onClick={handleAssign}
           />
         </div>
       </div>
 
       <div className="flex justify-between max-w-7xl mx-auto mt-16 relative">
-        {" "}
-        {/* Added relative positioning */}
-        {/* Sidebar Navigation */}
         <PatientSidebar />
         <div className="bg-white w-5/6 px-8 py-20 relative">
-          {" "}
-          {/* Make sure the container is relative */}
           <div className="flex justify-between items-center border-b border-gray border-opacity-35">
             <h1>
               Payment status:{" "}

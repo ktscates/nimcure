@@ -25,13 +25,13 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <input
         type={type === "password" && showPassword ? "text" : type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`peer border text-dark placeholder:text-gray placeholder-transparent border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 px-3 py-2 w-full ${customStyle}`}
+        className={` peer border text-dark placeholder:text-gray placeholder-transparent border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 px-3 py-2 ${customStyle}`}
       />
       {/* Floating Label */}
       {label && (
@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> = ({
       {/* Search Icon for Search Input */}
       {type === "search" && (
         <FiSearch
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          className="absolute left-3 right-5 top-1/2 transform -translate-y-1/2  text-background"
           size={16}
         />
       )}
