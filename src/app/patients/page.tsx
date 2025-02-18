@@ -69,9 +69,8 @@ export default function Patients() {
     setIsDropdownOpen(false);
   };
 
-  // Function to handle the "View" button click for each patient
   const handleViewDetails = (hospital_id: string) => {
-    router.push(`/patients/${hospital_id}`); // Navigate to the details page of the selected patient
+    router.push(`/patients/${hospital_id}`);
   };
 
   // Calculate the current page data
@@ -83,7 +82,6 @@ export default function Patients() {
     indexOfLastItem
   );
 
-  // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };

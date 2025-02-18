@@ -14,7 +14,6 @@ export default function PatientProfile() {
   const [activeTab, setActiveTab] = useState("patient-info");
   const router = useRouter();
 
-  // Find the patient with the matching hospital_id
   const patient = patients.find((p) => p.hospital_id === hospital_id);
 
   if (!patient) {
@@ -105,7 +104,7 @@ export default function PatientProfile() {
               <PatientInfo patient={patient} />
             </div>
           )}
-          {/* Delivery Information Placeholder */}
+
           {activeTab === "delivery-info" && (
             <div className="flex justify-between gap-5 mt-6">
               <div>
@@ -122,7 +121,7 @@ export default function PatientProfile() {
               <DeliveryInfo patient={patient} />
             </div>
           )}
-          {/* Floating Button at Bottom Right */}
+
           <div className="absolute bottom-4 right-4 px-4">
             <Button
               type="button"

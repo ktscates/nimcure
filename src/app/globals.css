@@ -3,3 +3,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px; /* Height of the green line */
+  background-color: rgba(0, 255, 0, 0.8); /* Green color with transparency */
+  animation: scannerMove 2s infinite linear; /* Animation to move the line */
+}
+
+@keyframes scannerMove {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: 50%;
+  }
+  100% {
+    top: 100%;
+  }
+}

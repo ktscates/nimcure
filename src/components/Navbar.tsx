@@ -14,32 +14,31 @@ const Navbar = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Array of navigation links
   const navLinks = [
     {
       href: "/overview",
       label: "Overview",
-      icon: "/images/overview.svg", // Path to the icon
+      icon: "/images/overview.svg",
     },
     {
       href: "/deliveries",
       label: "Deliveries",
-      icon: "/images/delivery.svg", // No icon for this link
+      icon: "/images/delivery.svg",
     },
     {
       href: "/patients",
       label: "Patients",
-      icon: "/images/patients.svg", // No icon for this link
+      icon: "/images/patients.svg",
     },
     {
       href: "/dispatch-riders",
       label: "Dispatch Riders",
-      icon: "/images/dispatch.svg", // No icon for this link
+      icon: "/images/dispatch.svg",
     },
     {
       href: "/admin",
       label: "Admin",
-      icon: "/images/admin.svg", // No icon for this link
+      icon: "/images/admin.svg",
     },
   ];
 
@@ -50,12 +49,7 @@ const Navbar = () => {
           {/* Logo and Overview Link */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center">
-              <Image
-                src="/images/seal.png" // Replace with your logo path
-                alt="Logo"
-                width={43} // Adjust based on your logo size
-                height={43}
-              />
+              <Image src="/images/seal.png" alt="Logo" width={43} height={43} />
             </Link>
           </div>
 

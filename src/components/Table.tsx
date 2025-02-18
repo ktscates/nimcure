@@ -4,15 +4,15 @@ import Pagination from "./Pagination";
 interface Column<T> {
   key: keyof T;
   label: string;
-  hideOnMobile?: boolean; // New property to control column visibility
+  hideOnMobile?: boolean;
 }
 
 interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   onRowClick?: (row: T) => void;
-  actions?: (row: T) => JSX.Element; // Optional actions (Edit/Delete)
-  customStyle?: string; // Custom styles
+  actions?: (row: T) => JSX.Element;
+  customStyle?: string;
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
@@ -97,7 +97,7 @@ const Table = <T,>({
         </tbody>
       </table>
 
-      {/* Pagination and Footer */}
+      {/* Pagination */}
       <div className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-6">
         <span className="text-sm text-dark text-opacity-80 mb-4 md:mb-0">
           You’re viewing {itemsPerPage} out of {totalItems} deliveries

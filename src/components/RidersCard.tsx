@@ -3,7 +3,7 @@ export interface RidersCardProps {
   readonly delivery_area: string;
   readonly number_of_delivery: string;
   readonly selected?: boolean;
-  // readonly onSelect?: (dispatch_rider_name: string) => void;
+  readonly onSelect?: (dispatch_rider_name: string) => void;
 }
 
 export default function RidersCard({
@@ -11,21 +11,22 @@ export default function RidersCard({
   delivery_area,
   number_of_delivery,
   selected,
-}: // onSelect,
-RidersCardProps) {
+  onSelect,
+}: RidersCardProps) {
   return (
     <div
       className={`flex items-center justify-between gap-4 text-gray-2 border border-background px-8 py-2 cursor-pointer ${
-        selected ? "border-blue" : "border-background"
+        selected ? "border-blue bg-blue bg-opacity-15" : "border-background"
       }`}
-      // onClick={() => onSelect && onSelect(rider_name)}
+      onClick={() => onSelect && onSelect(rider_name)}
     >
       <div className="flex gap-6">
         <div className="grid place-content-center">
           <input
             type="radio"
             name="drugCycle"
-            value="new"
+            checked={selected}
+            onChange={() => onSelect && onSelect(rider_name)}
             className="form-radio h-5 w-5 text-blue-600 rounded"
           />
         </div>

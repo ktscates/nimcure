@@ -7,11 +7,15 @@ import { useState } from "react";
 import patients from "@/data";
 import DispatchRiders from "@/components/DispatchRiders";
 import DrugCycle from "@/components/DrugCycle";
+import Image from "next/image";
+import ScanPackage from "@/components/ScanPackage";
 
 export default function AssignPackage() {
   const { hospital_id } = useParams();
   const [activeTab, setActiveTab] = useState("cycle");
+  const [completedTabs, setCompletedTabs] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedRider, setSelectedRider] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
 
   // Find the patient with the matching hospital_id
@@ -43,6 +47,22 @@ export default function AssignPackage() {
     return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
   }
 
+  const tabs = [
+    { id: "cycle", label: "Set Drug Cycle/Length" },
+    { id: "dispatch", label: "Assign Dispatch Rider" },
+    { id: "scan", label: "Scan Package" },
+  ];
+
+  const getIcon = (tabId: string) => {
+    if (activeTab === tabId) return "/images/bullet.svg";
+    if (completedTabs.includes(tabId)) return "/images/check.svg";
+    return "/images/radio.svg";
+  };
+
+  const getTextColor = (tabId: string) => {
+    if (completedTabs.includes(tabId)) return "text-completed font-bold";
+  };
+
   const breadcrumbItems = [
     { label: "Patients", href: "/patients" },
     { label: "View Patient" },
@@ -56,7 +76,11 @@ export default function AssignPackage() {
     }
     setShowError(false);
 
-    // Proceed to the next tab
+    if (!completedTabs.includes(activeTab)) {
+      setCompletedTabs([...completedTabs, activeTab]);
+    }
+
+    // Move to the next tab
     if (activeTab === "cycle") setActiveTab("dispatch");
     else if (activeTab === "dispatch") setActiveTab("scan");
   };
@@ -79,36 +103,25 @@ export default function AssignPackage() {
         <div className="bg-white w-4/6 px-8 py-4 relative shadow-sm">
           {/* Tabs */}
           <div className="flex space-x-4 border-b border-background mb-6">
-            <button
-              disabled={activeTab !== "cycle"}
-              className={`py-2 px-4 ${
-                activeTab === "cycle"
-                  ? "border-b-4 border-light_blue text-light_blue font-bold"
-                  : "text-gray-400 cursor-not-allowed"
-              }`}
-            >
-              Set Drug Cycle/Length
-            </button>
-            <button
-              disabled={activeTab !== "dispatch"}
-              className={`py-2 px-4 ${
-                activeTab === "dispatch"
-                  ? "border-b-4 border-light_blue text-light_blue font-bold"
-                  : "text-gray-400 cursor-not-allowed"
-              }`}
-            >
-              Assign Dispatch Rider
-            </button>
-            <button
-              disabled={activeTab !== "scan"}
-              className={`py-2 px-4 ${
-                activeTab === "scan"
-                  ? "border-b-4 border-light_blue text-light_blue font-bold"
-                  : "text-gray-400 cursor-not-allowed"
-              }`}
-            >
-              Scan Package
-            </button>
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                disabled={activeTab !== tab.id}
+                className={`flex gap-2 items-center py-2 px-4 ${
+                  activeTab === tab.id
+                    ? "border-b-4 border-light_blue text-light_blue font-bold"
+                    : "text-gray-400 cursor-not-allowed"
+                } ${getTextColor(tab.id)}`}
+              >
+                <Image
+                  src={getIcon(tab.id)}
+                  alt="status"
+                  width={16}
+                  height={16}
+                />
+                {tab.label}
+              </button>
+            ))}
           </div>
 
           {/* Tab Content */}
@@ -123,11 +136,13 @@ export default function AssignPackage() {
               />
             )}
 
-            {activeTab === "dispatch" && <DispatchRiders />}
+            {activeTab === "dispatch" && (
+              <DispatchRiders onRiderSelect={setSelectedRider} />
+            )}
 
             {activeTab === "scan" && (
               <div>
-                <p className="text-gray-600">Scan Package content goes here.</p>
+                <ScanPackage />
               </div>
             )}
           </div>
@@ -137,9 +152,13 @@ export default function AssignPackage() {
             <div className="flex justify-end">
               <button
                 onClick={handleNext}
-                disabled={!selectedOption && activeTab !== "scan"}
+                disabled={
+                  (activeTab === "cycle" && !selectedOption) ||
+                  (activeTab === "dispatch" && !selectedRider)
+                }
                 className={`mt-6 px-6 py-2 bg-light_blue text-white text-sm font-bold transition ${
-                  !selectedOption && activeTab !== "scan"
+                  (activeTab === "cycle" && !selectedOption) ||
+                  (activeTab === "dispatch" && !selectedRider)
                     ? "bg-opacity-50 cursor-not-allowed"
                     : "  hover:bg-light_blue"
                 }`}
