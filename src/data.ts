@@ -12,7 +12,6 @@ type Patient = {
   email: string;
 };
 
-// data/patients.ts
 const patients: Patient[] = [
   {
     hospital_id: "8IWATQGO",
